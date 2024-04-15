@@ -135,8 +135,13 @@ assign SDRAM2_nRAS = 1;
 assign SDRAM2_nWE = 1;
 `endif
 
-`include "build_id.v"
+`ifdef DRIVE_N
+localparam integer DRIVE_N = `DRIVE_N;
+`else
+localparam integer DRIVE_N = 1;
+`endif
 
+`include "build_id.v"
 
 c64_mist
 #(
@@ -145,6 +150,7 @@ c64_mist
 	.USE_AUDIO_IN(USE_AUDIO_IN ? "true" : "false"),
 	.BIG_OSD(BIG_OSD ? "true" : "false"),
 	.HDMI(HDMI ? "true" : "false"),
+	.DRIVE_N(DRIVE_N),
 	.BUILD_DATE(`BUILD_DATE)
 )
 c64_mist (
@@ -205,7 +211,5 @@ c64_mist (
 	.UART_RX(UART_RX),
 	.UART_TX(UART_TX)
 );
-
-
 
 endmodule
